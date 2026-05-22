@@ -11,6 +11,36 @@ interface PortfolioPageProps {
   printedImages: string[];
 }
 
+// Componente para detectar o tamanho da imagem e ajustar o layout automaticamente
+function ResponsiveImage({ src, images, index, openLightbox }: { src: string, images: string[], index: number, openLightbox: (imgs: string[], idx: number) => void }) {
+  const [isLandscape, setIsLandscape] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  return (
+    <div 
+      className={`bg-white rounded-2xl shadow-md overflow-hidden border border-slate-100 cursor-zoom-in transition-all duration-500
+        ${!isLoaded ? 'opacity-0' : 'opacity-100'}
+        ${isLandscape ? 'col-span-2 aspect-[21/9]' : 'aspect-[2/3.5]'}`}
+      onClick={() => openLightbox(images, index)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === 'Enter' && openLightbox(images, index)}
+    >
+      <img 
+        src={src} 
+        onLoad={(e) => {
+          const img = e.target as HTMLImageElement;
+          // Se a largura nativa for maior que a altura, tratamos como paisagem
+          setIsLandscape(img.naturalWidth > img.naturalHeight);
+          setIsLoaded(true);
+        }}
+        className="w-full h-full object-cover"
+        alt={`Material impresso ${index + 1}`}
+      />
+    </div>
+  );
+}
+
 export function PortfolioPage({ heroImage, socialImages, menuImages, printedImages }: PortfolioPageProps) {
   const whatsappLink = "https://wa.me/557598825022";
   
@@ -55,7 +85,6 @@ export function PortfolioPage({ heroImage, socialImages, menuImages, printedImag
           onClose={() => setLightboxState(null)} 
           onNext={nextLightbox} 
           onPrev={prevLightbox}
-          // A função abaixo permite que os dots (pontos) alterem o estado do índice
           setIndex={(newIndex: number) => setLightboxState({ ...lightboxState, index: newIndex })}
         />
       )}
@@ -150,17 +179,13 @@ export function PortfolioPage({ heroImage, socialImages, menuImages, printedImag
           <div className="max-w-6xl mx-auto px-8 grid lg:grid-cols-2 gap-20 items-center">
             <div className="grid grid-cols-2 gap-6 items-end">
               {printedImages.map((img, i) => (
-                <div 
+                <ResponsiveImage 
                   key={i} 
-                  className={`bg-white rounded-2xl shadow-md overflow-hidden border border-slate-100 cursor-zoom-in ${i === 2 ? 'col-span-2 aspect-[21/9]' : 'aspect-[2/3.5]'}`}
-                  onClick={() => openLightbox(printedImages, i)}
-                  role="button"
-                  aria-label={`Ampliar impresso ${i + 1}`}
-                  tabIndex={0}
-                  onKeyDown={(e) => e.key === 'Enter' && openLightbox(printedImages, i)}
-                >
-                  <img src={img} alt={`Material impresso ${i + 1}`} className="w-full h-full object-cover" />
-                </div>
+                  src={img} 
+                  images={printedImages} 
+                  index={i} 
+                  openLightbox={openLightbox} 
+                />
               ))}
             </div>
             <div>
