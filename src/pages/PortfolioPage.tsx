@@ -118,7 +118,7 @@ export function PortfolioPage({ heroImage, socialImages, menuImages, printedImag
                 src={heroImage} 
                 alt="Design de destaque" 
                 className="w-full h-full object-cover" 
-                fetchpriority="high"
+                fetchPriority="high"
                 width="600"
                 height="338"
               />
