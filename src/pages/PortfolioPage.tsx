@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Lightbox } from '../components/Lightbox';
 import { Navbar } from '../components/Navbar';
 import { FloatingWhatsapp } from '../components/FloatingWhatsapp';
@@ -10,13 +10,22 @@ interface ResponsiveImage {
   srcset: string;
   sizes: string;
   alt: string;
-  width: number;  // Adicionado
-  height: number; // Adicionado
+  width: number;
+  height: number;
 }
 
 function ResponsiveImageComponent({ data, images, index, openLightbox }: { data: ResponsiveImage, images: ResponsiveImage[], index: number, openLightbox: (imgs: string[], idx: number) => void }) {
   const [isLandscape, setIsLandscape] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    // Verifica se a imagem já carregou (cache)
+    if (imgRef.current?.complete) {
+      setIsLandscape(imgRef.current.naturalWidth > imgRef.current.naturalHeight);
+      setIsLoaded(true);
+    }
+  }, []);
 
   return (
     <div 
@@ -29,16 +38,18 @@ function ResponsiveImageComponent({ data, images, index, openLightbox }: { data:
       onKeyDown={(e) => e.key === 'Enter' && openLightbox(images.map(img => img.src), index)}
     >
       <img 
+        ref={imgRef}
         src={data.src}
         srcSet={data.srcset}
         sizes={data.sizes}
         alt={data.alt}
-        width={data.width}   // Corrigido: Usando a largura da interface
-        height={data.height} // Corrigido: Usando a altura da interface
-        onLoad={(e) => {
-          const img = e.target as HTMLImageElement;
-          setIsLandscape(img.naturalWidth > img.naturalHeight);
-          setIsLoaded(true);
+        width={data.width}
+        height={data.height}
+        onLoad={() => {
+          if (imgRef.current) {
+            setIsLandscape(imgRef.current.naturalWidth > imgRef.current.naturalHeight);
+            setIsLoaded(true);
+          }
         }}
         className="w-full h-full object-cover"
         loading="lazy"
@@ -99,13 +110,13 @@ export default function PortfolioPage() {
             <p className="text-lg text-slate-500 leading-relaxed max-w-sm mb-10">Transformando ideias em artes de alto impacto.</p>
             <a href={whatsappLink} className="bg-slate-900 text-white px-10 py-4 rounded-full font-bold text-sm hover:bg-orange-600 transition-all shadow-xl inline-block animate-soft-float btn-shine-container">Iniciar Projeto</a>
           </div>
-          <div className="relative cursor-zoom-in" onClick={() => openLightbox([data.heroImage.src], 0)} role="button">
+          <div className="relative cursor-zoom-in" onClick={() => openLightbox([data.heroImage.src], 0)} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && openLightbox([data.heroImage.src], 0)}>
             <div className="bg-slate-200 aspect-video rounded-[2rem] overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-all duration-500">
               <img 
                 src={data.heroImage.src} 
                 alt={data.heroImage.alt} 
-                width={1200} // Corrigido: Dimensão para evitar CLS
-                height={675} // Corrigido: Proporção 16:9 compatível com aspect-video
+                width={1200}
+                height={675}
                 className="w-full h-full object-cover" 
                 fetchPriority="high" 
               />
@@ -117,14 +128,14 @@ export default function PortfolioPage() {
           <div className="max-w-6xl mx-auto px-4 md:px-8 grid lg:grid-cols-2 gap-16 items-center w-full">
             <div className="order-2 lg:order-1 grid grid-cols-2 gap-6">
               {data.socialImages.map((img, i) => (
-                <div key={i} className="aspect-[2/3] bg-white rounded-3xl overflow-hidden shadow-lg border border-slate-100 p-2 cursor-zoom-in hover:shadow-2xl transition-all" onClick={() => openLightbox(data.socialImages.map(s => s.src), i)} role="button">
+                <div key={i} className="aspect-[2/3] bg-white rounded-3xl overflow-hidden shadow-lg border border-slate-100 p-2 cursor-zoom-in hover:shadow-2xl transition-all" onClick={() => openLightbox(data.socialImages.map(s => s.src), i)} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && openLightbox(data.socialImages.map(s => s.src), i)}>
                   <img 
                     src={img.src} 
                     srcSet={img.srcset} 
                     sizes={img.sizes} 
                     alt={img.alt} 
-                    width={img.width || 400}  // Corrigido: Puxando da tipagem
-                    height={img.height || 600} // Corrigido: Puxando da tipagem
+                    width={img.width || 400}
+                    height={img.height || 600}
                     className="w-full h-full object-cover rounded-2xl" 
                     loading="lazy" 
                   />
@@ -144,7 +155,7 @@ export default function PortfolioPage() {
               <h2 className="text-4xl font-black mb-6 tracking-tight text-white">Cardápios <br/><span className="text-orange-500">Digitais ou impressos</span></h2>
               <p className="text-slate-400 mb-10 leading-relaxed">Menus interativos focados na experiência do cliente.</p>
             </div>
-            <div className="relative group cursor-zoom-in" onClick={() => openLightbox(data.menuImages.map(m => m.src), currentMenuSlide)} role="button">
+            <div className="relative group cursor-zoom-in" onClick={() => openLightbox(data.menuImages.map(m => m.src), currentMenuSlide)} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && openLightbox(data.menuImages.map(m => m.src), currentMenuSlide)}>
               <div className="aspect-[4/3] bg-white/5 rounded-3xl overflow-hidden border border-white/10 relative shadow-2xl">
                 {data.menuImages.map((img, i) => (
                   <img 
@@ -153,24 +164,21 @@ export default function PortfolioPage() {
                     srcSet={img.srcset} 
                     sizes={img.sizes} 
                     alt={img.alt} 
-                    width={img.width || 800}  // Corrigido
-                    height={img.height || 600} // Corrigido
+                    width={img.width || 800}
+                    height={img.height || 600}
                     className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${i === currentMenuSlide ? 'opacity-100' : 'opacity-0'}`} 
                     loading="lazy" 
                   />
                 ))}
-                
-                {/* Botões de navegação (Setas) */}
                 <button
-                aria-label="Imagem anterior" 
+                  aria-label="Imagem anterior" 
                   className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 hover:bg-black/80 text-white rounded-full transition-all opacity-0 group-hover:opacity-100"
                   onClick={(e) => { e.stopPropagation(); setCurrentMenuSlide(prev => (prev === 0 ? data.menuImages.length - 1 : prev - 1)); }}
                 >
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
                 </button>
-
                 <button 
-                aria-label="Próxima imagem"
+                  aria-label="Próxima imagem"
                   className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 hover:bg-black/80 text-white rounded-full transition-all opacity-0 group-hover:opacity-100"
                   onClick={(e) => { e.stopPropagation(); setCurrentMenuSlide(prev => (prev >= data.menuImages.length - 1 ? 0 : prev + 1)); }}
                 >
