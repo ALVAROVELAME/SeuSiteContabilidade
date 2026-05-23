@@ -1,24 +1,26 @@
 <!doctype html>
 <html lang="pt-br">
   <head>
-    <!-- Configurações básicas do documento -->
+    <!-- Configurações básicas -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     
+    <!-- Otimização de conexão: ajuda o navegador a preparar a busca dos arquivos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <!-- SEO - Título e Descrição -->
     <title>Gerianderson Dsgn — Design de Alto Impacto em Salinas da Margarida</title>
     <meta name="description" content="Gerianderson Dsgn: Especialista em Social Media, Cardápios Digitais e Materiais Impressos em Salinas da Margarida. Transforme sua marca com design estratégico e profissional.">
     
-    <!-- Canonical -->
     <link rel="canonical" href="https://geriandersondsgn.vercel.app/" />
 
-    <!-- Open Graph (Facebook / WhatsApp / LinkedIn) -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://geriandersondsgn.vercel.app/">
     <meta property="og:title" content="Gerianderson Dsgn — Design de Alto Impacto">
     <meta property="og:description" content="Design estratégico para negócios: Social Media, Cardápios e Impressos em Salinas da Margarida.">
-    <!-- Imagem de compartilhamento otimizada (800w) -->
     <meta property="og:image" content="https://geriandersondsgn.vercel.app/images/principal-800w.webp">
 
     <!-- Twitter Card -->
@@ -26,12 +28,12 @@
     <meta property="twitter:url" content="https://geriandersondsgn.vercel.app/">
     <meta property="twitter:title" content="Gerianderson Dsgn — Design de Alto Impacto">
     <meta property="twitter:description" content="Design estratégico para negócios: Social Media, Cardápios e Impressos em Salinas da Margarida.">
-    <!-- Imagem de compartilhamento otimizada (800w) -->
     <meta property="twitter:image" content="https://geriandersondsgn.vercel.app/images/principal-800w.webp">
 
+    <!-- Preload da imagem principal para reduzir o LCP (Largest Contentful Paint) -->
+    <link rel="preload" as="image" href="/images/principal-800w.webp">
   </head>
   <body>
-    <!-- Root: onde o React injeta o conteúdo do site -->
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
