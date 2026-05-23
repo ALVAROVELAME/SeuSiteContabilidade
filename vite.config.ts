@@ -9,17 +9,23 @@ export default defineConfig({
       test: /\.(webp|svg)$/i,
       includePublic: true,
       logStats: true,
-      // Configuração otimizada para compressão agressiva mas visualmente limpa
+      // Configuração otimizada para compressão eficiente
       webp: {
-        quality: 75, // 75 é o "sweet spot" entre qualidade e peso para web
-        method: 6,   // Método 6 é o mais lento, porém entrega a melhor compressão possível
+        quality: 75,
         lossless: false,
       },
       // Configuração otimizada para SVGs
       svg: {
         multipass: true,
         plugins: [
-          { name: 'preset-default', params: { overrides: { removeViewBox: false } } },
+          { 
+            name: 'preset-default', 
+            params: { 
+              overrides: { 
+                removeViewBox: false 
+              } 
+            } 
+          },
           { name: 'removeTitle' },
           { name: 'removeDesc' }
         ]
