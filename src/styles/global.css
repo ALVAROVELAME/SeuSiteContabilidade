@@ -1,5 +1,25 @@
 ﻿@import "tailwindcss";
 
+/* 1. Reset e Configuração Global para evitar overflow lateral */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   @apply bg-[#FDFCFB] text-slate-900 antialiased;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Garante que nada que ultrapasse a largura seja visível */
+  width: 100%;
+}
+
+/* 2. Utilitário para garantir espaçamento mínimo (Respiro Lateral) */
+/* Você pode aplicar a classe 'container-fluid' na sua div principal */
+.container-fluid {
+  @apply w-full px-4 md:px-8 lg:px-12 mx-auto;
+}
+
+/* 3. Proteção contra imagens/vídeos que estouram o layout */
+img, video {
+  @apply max-w-full h-auto block;
 }

@@ -70,7 +70,7 @@ export default function PortfolioPage() {
   if (!data) return null;
 
   return (
-    <div className="min-h-screen bg-[#FDFCFB] text-slate-900 selection:bg-orange-100 font-sans scroll-smooth">
+    <div className="min-h-screen bg-[#FDFCFB] text-slate-900 selection:bg-orange-100 font-sans scroll-smooth overflow-x-hidden w-full">
       <GlobalEffects />
       
       {lightboxState && (
@@ -88,7 +88,7 @@ export default function PortfolioPage() {
       <Navbar />
 
       <main>
-        <header className="max-w-6xl mx-auto px-8 pt-48 pb-24 grid lg:grid-cols-2 gap-16 items-center">
+        <header className="max-w-6xl mx-auto px-4 md:px-8 pt-48 pb-24 grid lg:grid-cols-2 gap-16 items-center w-full">
           <div>
             <span className="inline-block px-3 py-1 bg-orange-200 text-orange-900 text-[10px] font-bold rounded-full mb-6 uppercase tracking-[0.2em]">Disponível para novos projetos</span>
             <h1 className="text-7xl font-black leading-[0.9] mb-8 tracking-tighter text-slate-900">Design que <br /><span className="text-orange-600">comunica</span>.</h1>
@@ -102,8 +102,8 @@ export default function PortfolioPage() {
           </div>
         </header>
 
-        <section className="py-24 border-t border-slate-100">
-          <div className="max-w-6xl mx-auto px-8 grid lg:grid-cols-2 gap-16 items-center">
+        <section className="py-24 border-t border-slate-100 w-full">
+          <div className="max-w-6xl mx-auto px-4 md:px-8 grid lg:grid-cols-2 gap-16 items-center w-full">
             <div className="order-2 lg:order-1 grid grid-cols-2 gap-6">
               {data.socialImages.map((img, i) => (
                 <div key={i} className="aspect-[2/3] bg-white rounded-3xl overflow-hidden shadow-lg border border-slate-100 p-2 cursor-zoom-in hover:shadow-2xl transition-all" onClick={() => openLightbox(data.socialImages.map(s => s.src), i)} role="button">
@@ -118,8 +118,8 @@ export default function PortfolioPage() {
           </div>
         </section>
 
-        <section className="py-24 bg-slate-900 text-white overflow-hidden">
-          <div className="max-w-6xl mx-auto px-8 grid lg:grid-cols-2 gap-16 items-center">
+        <section className="py-24 bg-slate-900 text-white overflow-hidden w-full">
+          <div className="max-w-6xl mx-auto px-4 md:px-8 grid lg:grid-cols-2 gap-16 items-center w-full">
             <div>
               <h2 className="text-4xl font-black mb-6 tracking-tight text-white">Cardápios <br/><span className="text-orange-500">Digitais ou impressos</span></h2>
               <p className="text-slate-400 mb-10 leading-relaxed">Menus interativos focados na experiência do cliente.</p>
@@ -134,8 +134,8 @@ export default function PortfolioPage() {
           </div>
         </section>
 
-        <section className="py-24 border-t border-slate-100">
-          <div className="max-w-6xl mx-auto px-8 grid lg:grid-cols-2 gap-20 items-center">
+        <section className="py-24 border-t border-slate-100 w-full">
+          <div className="max-w-6xl mx-auto px-4 md:px-8 grid lg:grid-cols-2 gap-20 items-center w-full">
             <div className="grid grid-cols-2 gap-6 items-end">
               {data.printedImages.map((img, i) => <ResponsiveImageComponent key={i} data={img} images={data.printedImages} index={i} openLightbox={openLightbox} />)}
             </div>
@@ -147,7 +147,7 @@ export default function PortfolioPage() {
         </section>
       </main>
 
-      <footer className="py-24 bg-white text-center border-t border-slate-100">
+      <footer className="py-24 bg-white text-center border-t border-slate-100 px-4 md:px-8 w-full">
         <h3 className="text-3xl font-black mb-8 text-slate-900 tracking-tighter">Vamos tirar sua ideia do papel?</h3>
         <a href={whatsappLink} className="inline-flex items-center gap-3 bg-[#25D366] text-white px-10 py-4 rounded-full font-bold text-sm shadow-xl animate-soft-float btn-shine-container">Chamar no WhatsApp</a>
         <p className="mt-20 text-[9px] text-slate-500 uppercase tracking-[0.3em] font-bold">© 2026 Gerianderson Dsgn — Salinas da Margarida, BA</p>
