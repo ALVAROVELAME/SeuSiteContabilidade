@@ -108,8 +108,10 @@ export default function PortfolioPage() {
         {/* PROPOSTA COMERCIAL */}
         <CommercialProposal whatsappLink={whatsappLink} />
 
-        {/* QUEM SOMOS */}
-        <AboutUs className="scroll-animate" whatsappLink={whatsappLink} />
+        {/* QUEM SOMOS - Envolvido em uma div para corrigir o erro de tipagem */}
+        <div className="scroll-animate">
+          <AboutUs whatsappLink={whatsappLink} />
+        </div>
 
         {/* CARDS DE SERVIÇOS */}
         <ServicesSection whatsappLink={whatsappLink} />
