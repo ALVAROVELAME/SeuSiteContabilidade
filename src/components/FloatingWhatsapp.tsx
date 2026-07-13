@@ -16,6 +16,11 @@ export function FloatingWhatsapp({ message }: FloatingWhatsappProps) {
     if (!sections.length) return;
 
     const visibleSections = new Set<Element>();
+    const shouldHideOnCurrentScreen = window.matchMedia('(max-width: 1023px)');
+    const updateVisibility = () => {
+      setIsHidden(shouldHideOnCurrentScreen.matches && visibleSections.size > 0);
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -26,14 +31,18 @@ export function FloatingWhatsapp({ message }: FloatingWhatsappProps) {
           }
         });
 
-        setIsHidden(visibleSections.size > 0);
+        updateVisibility();
       },
       { threshold: 0.12, rootMargin: '-80px 0px -80px 0px' }
     );
 
     sections.forEach((section) => observer.observe(section));
+    shouldHideOnCurrentScreen.addEventListener('change', updateVisibility);
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      shouldHideOnCurrentScreen.removeEventListener('change', updateVisibility);
+    };
   }, []);
 
   return (
