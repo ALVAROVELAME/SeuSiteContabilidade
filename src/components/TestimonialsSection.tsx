@@ -32,7 +32,7 @@ export function TestimonialsSection() {
                 />
               </div>
               <div>
-                <h4 className="font-bold text-sm">Amanda Silva</h4>
+                <p className="font-bold text-sm">Amanda Silva</p>
                 <span className="text-xs text-slate-500">Diretora, TechStore</span>
               </div>
             </div>
@@ -55,7 +55,7 @@ export function TestimonialsSection() {
                 />
               </div>
               <div>
-                <h4 className="font-bold text-sm">Ricardo Mendes</h4>
+                <p className="font-bold text-sm">Ricardo Mendes</p>
                 <span className="text-xs text-slate-500">Fundador, Construtora RM</span>
               </div>
             </div>
