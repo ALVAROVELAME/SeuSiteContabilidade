@@ -1,3 +1,10 @@
+import { getResponsiveImage } from '../utils/imageLoader';
+
+const testimonialAvatars = {
+  amanda: getResponsiveImage('depoimentos/amanda-silva.webp', 'Amanda Silva'),
+  ricardo: getResponsiveImage('depoimentos/ricardo-mendes.webp', 'Ricardo Mendes'),
+};
+
 export function TestimonialsSection() {
   return (
     <section className="py-24 bg-slate-950 text-white w-full relative">
@@ -12,7 +19,17 @@ export function TestimonialsSection() {
             <p className="text-slate-300 italic mb-6">"Excelente transição de sistema. A equipe reduziu toda a nossa burocracia interna e conseguimos focar 100% nas nossas vendas, sabendo que a parte fiscal está impecável."</p>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-slate-700 rounded-full overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100" alt="Cliente" />
+                <img
+                  src={testimonialAvatars.amanda.src}
+                  srcSet={testimonialAvatars.amanda.srcSet}
+                  sizes="40px"
+                  width={testimonialAvatars.amanda.width}
+                  height={testimonialAvatars.amanda.height}
+                  alt={testimonialAvatars.amanda.alt}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover"
+                />
               </div>
               <div>
                 <h4 className="font-bold text-sm">Amanda Silva</h4>
@@ -25,7 +42,17 @@ export function TestimonialsSection() {
             <p className="text-slate-300 italic mb-6">"O planejamento tributário que fizeram poupou milhares de reais logo no primeiro trimestre do ano. Recomendo muito o modelo de atendimento consultivo deles."</p>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-slate-700 rounded-full overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100" alt="Cliente" />
+                <img
+                  src={testimonialAvatars.ricardo.src}
+                  srcSet={testimonialAvatars.ricardo.srcSet}
+                  sizes="40px"
+                  width={testimonialAvatars.ricardo.width}
+                  height={testimonialAvatars.ricardo.height}
+                  alt={testimonialAvatars.ricardo.alt}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover"
+                />
               </div>
               <div>
                 <h4 className="font-bold text-sm">Ricardo Mendes</h4>

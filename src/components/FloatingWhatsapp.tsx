@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { getWhatsappLink } from '../data/config';
 
 interface FloatingWhatsappProps {
@@ -5,8 +6,35 @@ interface FloatingWhatsappProps {
 }
 
 export function FloatingWhatsapp({ message }: FloatingWhatsappProps) {
+  const [isHidden, setIsHidden] = useState(false);
   // Utiliza o helper centralizado para gerar o link correto
   const whatsappLink = getWhatsappLink(message);
+
+  useEffect(() => {
+    const sections = document.querySelectorAll('[data-hide-floating-whatsapp="true"]');
+
+    if (!sections.length) return;
+
+    const visibleSections = new Set<Element>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            visibleSections.add(entry.target);
+          } else {
+            visibleSections.delete(entry.target);
+          }
+        });
+
+        setIsHidden(visibleSections.size > 0);
+      },
+      { threshold: 0.12, rootMargin: '-80px 0px -80px 0px' }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <>
@@ -22,8 +50,11 @@ export function FloatingWhatsapp({ message }: FloatingWhatsappProps) {
         href={whatsappLink} 
         target="_blank" 
         rel="noopener noreferrer" 
-        className="fixed bottom-8 right-8 z-[100] bg-[#25D366] text-white p-5 rounded-full shadow-2xl animate-wpp-float hover:scale-110 transition-transform duration-300"
+        className={`fixed bottom-8 right-8 z-[100] bg-[#25D366] text-white p-5 rounded-full shadow-2xl animate-wpp-float hover:scale-110 transition-all duration-300 ${
+          isHidden ? 'opacity-0 pointer-events-none translate-y-5 scale-90' : 'opacity-100 translate-y-0 scale-100'
+        }`}
         aria-label="Falar no WhatsApp"
+        aria-hidden={isHidden}
       >
         {/* Ícone padrão do WhatsApp */}
         <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">

@@ -1,6 +1,10 @@
+import { getResponsiveImage } from '../utils/imageLoader';
+
 interface HistorySectionProps {
   whatsappLink: string;
 }
+
+const historyImage = getResponsiveImage('trajetoria/reuniao-corporativa.webp', 'Equipe corporativa reunida em uma mesa');
 
 export function HistorySection({ whatsappLink }: HistorySectionProps) {
   return (
@@ -15,7 +19,17 @@ export function HistorySection({ whatsappLink }: HistorySectionProps) {
           <a href={whatsappLink} className="bg-teal-500 text-slate-950 px-8 py-3 rounded-sm font-bold text-sm hover:bg-teal-400 transition-all inline-block">Fale Conosco</a>
         </div>
         <div className="order-1 lg:order-2 relative group overflow-hidden rounded-2xl shadow-lg scroll-animate">
-          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800" alt="Equipe reunida trabalhando corporativo" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <img
+            src={historyImage.src}
+            srcSet={historyImage.srcSet}
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            width={historyImage.width}
+            height={historyImage.height}
+            alt={historyImage.alt}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
         </div>
       </div>
     </section>

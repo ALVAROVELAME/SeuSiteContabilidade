@@ -1,14 +1,28 @@
+import { getResponsiveImage } from '../utils/imageLoader';
+
 interface AboutUsProps {
   whatsappLink: string;
 }
+
+const aboutImage = getResponsiveImage('sobre/equipe-contabil.webp', 'Profissionais de contabilidade trabalhando juntos');
 
 export function AboutUs({ whatsappLink }: AboutUsProps) {
   return (
     <section className="py-24 w-full bg-white" id="sobre">
       <div className="max-w-6xl mx-auto px-4 md:px-8 grid lg:grid-cols-2 gap-16 items-center w-full">
         <div className="relative scroll-animate">
-          <div className="bg-slate-200 aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
-            <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=800" alt="Profissionais trabalhando" className="w-full h-full object-cover" />
+          <div className="relative bg-slate-200 aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
+            <img
+              src={aboutImage.src}
+              srcSet={aboutImage.srcSet}
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              width={aboutImage.width}
+              height={aboutImage.height}
+              alt={aboutImage.alt}
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 !h-full !w-full object-cover object-center"
+            />
           </div>
         </div>
         <div className="scroll-animate">

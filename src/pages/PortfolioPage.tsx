@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react';
-import { Lightbox } from '../components/Lightbox';
+import { useEffect } from 'react';
 import { Navbar } from '../components/Navbar';
 import { FloatingWhatsapp } from '../components/FloatingWhatsapp';
 import { GlobalEffects } from '../components/GlobalEffects';
-import { fetchPortfolioData } from '../data/portfolioData';
 
 // Importação da configuração global de contato
 import { getWhatsappLink } from '../data/config';
@@ -19,25 +17,13 @@ import { HistorySection } from '../components/HistorySection';
 import { TestimonialsSection } from '../components/TestimonialsSection';
 import { BlogSection } from '../components/BlogSection';
 import { FaqSection } from '../components/FaqSection';
+import { SchedulingMapSection } from '../components/SchedulingMapSection';
 import { CtaBanner } from '../components/CtaBanner';
 import { Footer } from '../components/Footer';
 
 export default function PortfolioPage() {
-  const [data, setData] = useState<any>(null);
-  const [lightboxState, setLightboxState] = useState<{ images: string[]; index: number } | null>(null);
-
-  useEffect(() => {
-    async function load() {
-      const result = await fetchPortfolioData();
-      setData(result);
-    }
-    load();
-  }, []);
-
   // Hook isolado para controlar as animações após os dados estarem prontos no DOM
   useEffect(() => {
-    if (!data) return;
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -59,12 +45,10 @@ export default function PortfolioPage() {
       clearTimeout(timer);
       observer.disconnect();
     };
-  }, [data]);
+  }, []);
 
   // Consumindo o link do WhatsApp de forma global e centralizada
   const whatsappLink = getWhatsappLink();
-
-  if (!data) return null;
 
   return (
     <div className="min-h-screen bg-[#FDFCFB] text-slate-800 selection:bg-teal-100 font-sans scroll-smooth overflow-x-hidden w-full">
@@ -84,23 +68,12 @@ export default function PortfolioPage() {
       `}</style>
 
       <GlobalEffects />
-      
-      {lightboxState && (
-        <Lightbox 
-          index={lightboxState.index} 
-          images={lightboxState.images} 
-          onClose={() => setLightboxState(null)} 
-          onNext={() => setLightboxState(prev => prev ? {...prev, index: (prev.index + 1) % prev.images.length} : null)} 
-          onPrev={() => setLightboxState(prev => prev ? {...prev, index: (prev.index - 1 + prev.images.length) % prev.images.length} : null)}
-          setIndex={(newIndex: number) => setLightboxState(prev => prev ? { ...prev, index: newIndex } : null)}
-        />
-      )}
-      
+
       <FloatingWhatsapp />
       <Navbar />
 
       {/* BANNER DE VENDA DO DESENVOLVEDOR */}
-      <DeveloperBanner whatsappLink={whatsappLink} />
+      <DeveloperBanner whatsappLink={getWhatsappLink("Ola! Quero comprar e personalizar este modelo de site para contabilidade.")} />
 
       <main>
         {/* HERO SECTION */}
@@ -131,6 +104,9 @@ export default function PortfolioPage() {
 
         {/* PERGUNTAS FREQUENTES */}
         <FaqSection />
+
+        {/* AGENDAMENTO E MAPA */}
+        <SchedulingMapSection />
 
         {/* BANNER INFERIOR DE CONSULTA GRATUITA */}
         <CtaBanner whatsappLink={whatsappLink} />

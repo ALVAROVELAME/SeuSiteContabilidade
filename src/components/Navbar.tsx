@@ -21,15 +21,20 @@ export function Navbar({ phone = "557599331557" }: NavbarProps) {
           <a href="#" className="text-slate-900 font-semibold border-b-2 border-teal-500 pb-1 transition-all">
             Início
           </a>
-          <div className="relative group cursor-pointer pb-1 hover:text-slate-900 transition-colors flex items-center gap-1">
-            <span>Páginas</span>
-            <span className="text-[10px] text-slate-400 group-hover:rotate-180 transition-transform duration-200">▼</span>
+          <div className="relative group pb-1">
+            <button type="button" className="flex items-center gap-1 hover:text-slate-900 transition-colors">
+              <span>Páginas</span>
+              <span className="text-[10px] text-slate-400 group-hover:rotate-180 group-focus-within:rotate-180 transition-transform duration-200">▼</span>
+            </button>
             
             {/* Menu Dropdown demonstrativo para valorizar o site */}
-            <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-slate-100 rounded-md shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 py-2 z-50">
-              <a href="#sobre" className="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 hover:text-teal-600">Quem Somos</a>
-              <a href="#servicos" className="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 hover:text-teal-600">Nossos Serviços</a>
-              <a href="#" className="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 hover:text-teal-600">Blog Corporativo</a>
+            <div className="absolute top-full left-0 w-48 pt-3 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto transition-all duration-200 z-50">
+              <div className="bg-white border border-slate-100 rounded-md shadow-xl py-2">
+                <a href="#sobre" className="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 hover:text-teal-600">Quem Somos</a>
+                <a href="#servicos" className="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 hover:text-teal-600">Nossos Serviços</a>
+                <a href="#agendamento" className="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 hover:text-teal-600">Agendamento</a>
+                <a href="#" className="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 hover:text-teal-600">Blog Corporativo</a>
+              </div>
             </div>
           </div>
         </div>

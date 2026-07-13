@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import type { TouchEvent } from 'react';
 
 /**
  * Componente Lightbox
@@ -6,7 +7,16 @@ import { useEffect, useRef } from 'react';
  * - Setas visíveis apenas em desktop (md:flex).
  * - Pontos (dots) e contador visíveis sempre.
  */
-export function Lightbox({ index, images, onClose, onNext, onPrev, setIndex }: any) {
+interface LightboxProps {
+  index: number;
+  images: string[];
+  onClose: () => void;
+  onNext: () => void;
+  onPrev: () => void;
+  setIndex: (index: number) => void;
+}
+
+export function Lightbox({ index, images, onClose, onNext, onPrev, setIndex }: LightboxProps) {
   const touchStartX = useRef(0);
 
   useEffect(() => {
@@ -20,11 +30,11 @@ export function Lightbox({ index, images, onClose, onNext, onPrev, setIndex }: a
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onNext, onPrev, onClose]);
 
-  const handleTouchStart = (e: React.TouchEvent) => {
+  const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
     touchStartX.current = e.changedTouches[0].screenX;
   };
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
+  const handleTouchEnd = (e: TouchEvent<HTMLDivElement>) => {
     const touchEndX = e.changedTouches[0].screenX;
     const diff = touchStartX.current - touchEndX;
 
@@ -76,10 +86,10 @@ export function Lightbox({ index, images, onClose, onNext, onPrev, setIndex }: a
         <div className="mt-8 flex flex-col items-center gap-4 pointer-events-auto">
           {/* Dots Clicáveis */}
           <div className="flex gap-2">
-            {images.map((_: any, i: number) => (
+            {images.map((image, i) => (
               <button
               type="button"
-                key={i}
+                key={image}
                 onClick={(e) => { e.stopPropagation(); setIndex(i); }}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
                   i === index ? 'bg-orange-500 scale-110' : 'bg-white/30 hover:bg-white/60'
